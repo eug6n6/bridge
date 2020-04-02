@@ -1,0 +1,12 @@
+.pile {
+  position: relative;
+  width: 70%;
+  height: 100%
+}
+.pile .card {
+  position: absolute;
+  top: 0;
+}
+.pile .card:nth-child(even) {
+  top: 0.1rem;
+}

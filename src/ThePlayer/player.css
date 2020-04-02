@@ -1,0 +1,27 @@
+.the-player {
+  width: 100%;
+  background: rgba(66,66,66,0.25);
+  opacity: 0.75;
+}
+.the-player.current {
+  background: rgba(166,66,166,0.25);
+  opacity: 1;
+}
+
+.the-player .cards {
+  overflow: hidden;
+}
+.the-player .cards .cards-wrapper {
+  overflow-y: auto;
+  display: flex;
+
+}
+.the-player .cards .cards-wrapper::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.the-player .cards .card {
+  min-width: 7.5rem;
+}

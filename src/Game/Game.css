@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap');
+
+.game {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.game .table {
+  display: flex;
+  min-height: 10rem;
+  margin: 3rem 0;
+}
+.game .help {
+  text-align: center;
+  padding: 1rem;
+  opacity: 0.4;
+}
+.game .players {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+.players-wrapper::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+.players-wrapper {
+  display: flex; 
+  padding-right: 1rem;
+  overflow-y: auto;
+  align-items: baseline;
+}
+.game .players .player {
+  margin: 0 1rem;
+  padding: 1rem;
+  background: rgba(66,66,66,0.25);
+  border-radius: 1rem;
+  position: relative;
+  opacity: 0.75;
+  min-width: 15rem;
+  overflow: hidden;
+  font-weight: normal;
+}
+.game .players .player.current {
+  background: rgba(166,66,166,0.25);
+  opacity: 1;
+}
+.game .players .player.the {
+  border-radius: 1rem 1rem 0 0 ;
+  padding-bottom: 4rem;
+  font-weight: bold;
+}
+.game .players .card {
+  margin-bottom: -3rem;
+}
+
+/* .game .players .player.the::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1rem;
+  top: 100%;
+  background: rgba(66,66,66,0.5);
+} */
+.game .players .player.current.the::after {
+  background: rgba(66,66,166,0.5);
+}
+.game .players .player .cards-number {
+  position: absolute;
+  left: 2rem;
+  bottom: 0;
+  font-size: 4rem;
+  opacity: 0.75;
+  color: #000;
+}
+.game .players .player.the .cards-number {
+  display: none;
+}
+
+.game .actions {
+  display: flex;
+  justify-content: center;
+}
+.game .actions button {
+  margin: 0 3rem ;
+  font-size: 2rem;
+  background: none;
+  color: #000;
+  text-shadow: 0 0 3px #00fff2, 0 0 6px #00fff2, 0 0 9px #00fff2;
+  overflow: hidden;
+  border: none;
+  padding: 0.3rem 1rem;
+  box-shadow: 0 0 5px -2px #00fff2;
+  cursor: pointer;
+}
+.game .actions button:disabled {
+  cursor: auto;
+}
+.game .actions button.red {
+  text-shadow: 0 0 3px #f200ff, 0 0 6px #f200ff, 0 0 9px #f200ff;
+}
