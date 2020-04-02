@@ -5,14 +5,14 @@ const SUIT = {
     SPADES: 'SPADES' // ♠
 }
 const NAME = {
-    // '6': '6',
+    '6': '6',
     '7': '7',
-    // '8': '8',
-    // '9': '9',
+    '8': '8',
+    '9': '9',
     '10': '10',
-    // JACK: 'JACK',
-    // QUEEN: 'QUEEN',
-    // KING: 'KING',
+    JACK: 'JACK',
+    QUEEN: 'QUEEN',
+    KING: 'KING',
     ACE: 'ACE'
 }
 

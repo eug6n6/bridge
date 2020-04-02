@@ -8,7 +8,7 @@ class Game {
     currentPlayer = null
     players = []
 
-    playing = false
+    ended = false
     playNumber = 0
 
     _lastSkipper = null
@@ -19,7 +19,6 @@ class Game {
     }
 
     start() {
-        this.playing = true
         this.deck = new Deck().fill().shuffle()
         this.pile = new Pile()
         this.players.forEach(player =>
@@ -69,8 +68,10 @@ class Game {
     end() {
         if (!rules.canEnd(this.currentPlayer, this.pile))
             throw new Error('You cannot end')
-        // TODO points...
-        this.playing = false
+        this.ended = true
+        // TODO false on start
+        this.currentPlayer.winner = true
+        this.players.forEach(player => player.points += rules.getPoints(player.cards))
     }
 
     getNextPlayer() {
@@ -99,7 +100,9 @@ class Game {
                 online: player.online,
                 skip: player.skip,
                 cards: player.cards.map(card => card.id),
-                current: false
+                current: false,
+                winner: player.winner,
+                points: player.points
             }
             if (player === this.currentPlayer) {
                 _player.current = true
@@ -117,6 +120,7 @@ class Game {
             players,
             deck: this.deck.cards.length,
             pile: this.pile.cards.map(card => card.id),
+            ended: this.ended
         }
     }
 

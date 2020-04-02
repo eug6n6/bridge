@@ -4,10 +4,12 @@ class Player extends Container {
     client = null
     online = false
 
-    points = 0
     skip = 0
     cardsTaken = 0
     cardsPut = 0
+    
+    points = 0
+    winner = false
 
     constructor(name, id) {
         super()

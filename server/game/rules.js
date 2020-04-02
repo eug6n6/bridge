@@ -75,5 +75,18 @@ module.exports = {
         return pile.getLastCard().name !== NAME['6'] && (
             !player.cards.length || pile.canEnd()
         )
+    },
+
+    getPoints(cards) {
+        const POINTS = {
+            [NAME[10]]: 10,
+            [NAME.QUEEN]: 10,
+            [NAME.KING]: 10,
+            [NAME.ACE]: 15,
+            [NAME.JACK]: 20
+        }
+        return cards.reduce((points, card) =>
+            points + (POINTS[card.name] || 0)
+        , 0) 
     }
 }
