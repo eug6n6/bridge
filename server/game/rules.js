@@ -37,7 +37,7 @@ module.exports = {
      */
     cardMakeTake(card) {
         if (card.name === NAME[9]) return 2
-        if (card.name === NAME[1]) return 1
+        if (card.name === NAME[8]) return 1
         if (card.name === NAME.KING && card.suit === SUIT.HEARTS) return 5
         return 0
     },

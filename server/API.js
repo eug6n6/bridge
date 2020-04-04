@@ -1,4 +1,5 @@
-const app = require('express')()
+const express = require('express')
+const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const Game = require('./game')
@@ -88,11 +89,11 @@ io.on('connection', function (client) {
 
 });
 
+app.use(express.static('build'))
+app.get('/', (req, res) => res.sendfile('./build/index.html'))
+app.use('/public', express.static(__dirname + '/public'))
+
 http.listen(4020, function () {
     console.log('listening on *:4020')
 })
 
-
-// app.get('/', function (req, res) {
-//     res.send('<h1>Hello world</h1>');
-// })

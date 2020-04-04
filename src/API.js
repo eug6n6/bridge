@@ -11,6 +11,7 @@ const params = {
 let socket = null
 
 const URL = '//localhost:4020'
+// const URL = '/'
 
 
 const getUrl = (URL, { game, player }) => {
