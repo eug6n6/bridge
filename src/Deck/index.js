@@ -2,17 +2,15 @@ import React from 'react'
 import './deck.css'
 
 export default props => {
-    const getPadding = i => i * 0.1 + (0.1 * Math.random()) + 'rem'
-
+    
     return (
-        <div className={"deck " + (props.available ? 'available' : '')}
+        <div className="deck"
             onClick={() => props.available && props.onClick()}>
-            <div className="cards">
-                {Array.from(Array(props.length > 5 ? 5 : props.length), (_, i) =>
-                    <div className="card unknown" style={{ left: getPadding(i), top: getPadding(i / 2) }} />
-                )}
-            </div>
-
+            <div className="card unknown under-1"></div>
+            <div className="card unknown under-2"></div>
+            <div className="card unknown under-3"></div>
+            <div className="card unknown under-4"></div>
+            <div className={"card unknown " + (props.available ? 'available' : '')}></div>
         </div>
     )
 }

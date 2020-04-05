@@ -14,40 +14,26 @@ const ThePlayer = ({ game, playerId }) => {
 
   return (
     <div className={'the-player ' + (player.current ? 'current' : '')}>
-      {player.current &&
-        <div className="control">
-          <div className="help">
-            {player && player.canCoverWith && !!player.canCoverWith.length &&
-              <div> Your turn! </div>}
-            {!player.canCoverWith.length && player.canSkip
-              && !player.canTake && !player.canEnd &&
-              <div>No moves left, continue...</div>}
-            {!player.canCoverWith.length && !player.canSkip
-              && player.canTake && !player.canEnd &&
-              <div>No moves left, take a card!</div>}
-            {player.canEnd &&
-              <div>You can finish the game!</div>}
-          </div>
-          <div className="actions">
-            {player.canEnd &&
-              <button className="red"
-                onClick={() => emit('end')}>Bridge!
-              </button>
-            }
-            {player.canSkip &&
-              <button
-                onClick={() => emit('skip')}>Continue...</button>
-            }
-
-          </div>
-        </div>
-      }
-
       <div className="cards">
         <div className="cards-wrapper">
-          {player.cards.map(card =>
-            <Card card={card} onClick={() => player.current && player.canCoverWith.includes(card) && attack(card)}
-              available={player.current && player.canCoverWith.includes(card)} />
+            {player.canSkip &&
+              <div className="card pass sm available"
+                   onClick={() => emit('skip')}>
+                     <span>Pass</span>
+              </div>
+            }
+            {player.canEnd &&
+              <div className="card bridge sm available"
+                   onClick={() => emit('end')}>
+                      <span>Bridge!</span>
+              </div>
+            }
+          {player.cards.sort(card1 => player.canCoverWith && player.canCoverWith.includes(card1) ? -1 : 1).map(card =>
+            <Card card={card} 
+                  onClick={() => player.current && player.canCoverWith.includes(card) && attack(card)}
+                  available={player.current && player.canCoverWith.includes(card)} 
+                  size={player.current ? 'sm' : 'xs'}
+            />
           )}
         </div>
       </div>

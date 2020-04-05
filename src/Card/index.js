@@ -1,21 +1,27 @@
 import React from 'react'
+import './card.css'
 
-export default props => {
-    let [ name, suit ] = props.card.split('_')
+const suitToChar = {
+    DIAMONDS: '♦',
+    CLUBS: '♣',
+    HEARTS: '♥',
+    SPADES: '♠',
+}
+
+export default ({ card, available, size, onClick, style}) => {
+    let [ name, suit ] = card.split('_')
      
-    const d = {
-        DIAMONDS: '♦',
-        CLUBS: '♣',
-        HEARTS: '♥',
-        SPADES: '♠',
-    }[suit] 
-    const n = name.length > 2 ? name[0] : name
+    const suitChar = suitToChar[suit]  || ''
+    const shortName = name.length > 2 ? name[0] : name || ''
+    
+    size = size || ''
+    available = available ? 'available' : ''
 
     return (
-        <div className={`card ${name || ''} ${suit || ''} ${props.available ? 'available' : ''}`} onClick={props.onClick} style={props.style}>
+        <div className={`card ${name} ${suit} ${available} ${size} `} 
+             onClick={onClick} style={style} >
             <div className="name">
-                <span>{d} <br /> {n} </span>
-                <span>{d} <br /> {n} </span>
+                { [1, 2].map(i => <span key={i}>{suitChar} <br /> {shortName} </span>)}
             </div>
             
         </div>

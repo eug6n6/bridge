@@ -1,17 +1,14 @@
 .deck {
   position: relative;
-  width: 30%;
-  height: 100%;
+  height: 12rem;
+  margin: 0 2rem;
 }
 .deck .cards {
-  width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 1rem ;
 }
 .deck .card {
-  position: absolute;
+  /* position: absolute; */
 }
 .deck.available .card:last-child {
   animation: scale .5s ease-out infinite alternate;

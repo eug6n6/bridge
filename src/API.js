@@ -1,6 +1,7 @@
 import openSocket from 'socket.io-client'
-import { updateGame } from './actions'
+import { updateGame, setNotification } from './actions'
 import store from './store'
+
 
 const urlParams = new URLSearchParams(window.location.search)
 const params = {

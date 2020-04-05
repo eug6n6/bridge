@@ -28,9 +28,16 @@ const Game = ({ game, playerId }) => {
         <div className="players-wrapper">
           {game.players.map(player =>
             <div className={'player ' + (player.current ? 'current ' : '') + (player === thePlayer ? 'the' : '')}>
-              <h5>{player.online ? '🟢' : '🔴'} {player.name}</h5>
-              <div className="card unknown" />
-              <div className="cards-number">{player.cards.length}</div>
+              <h5>
+                <small>{player.online ? '🟢' : '🔴'} </small>
+                {player.name}</h5>
+              { player !== thePlayer &&
+                <React.Fragment>
+                  <div className="card xs unknown"> 
+                    <div className="cards-number">{player.cards.length}</div>
+                  </div>
+                </React.Fragment>
+              }
             </div>
           )}
         </div>

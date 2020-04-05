@@ -1,11 +1,9 @@
 .the-player {
   width: 100%;
-  background: rgba(66,66,66,0.25);
-  opacity: 0.75;
+  background: #000;
 }
 .the-player.current {
-  background: rgba(166,66,166,0.25);
-  opacity: 1;
+  box-shadow: 0 0 15px red;
 }
 
 .the-player .cards {
@@ -14,14 +12,12 @@
 .the-player .cards .cards-wrapper {
   overflow-y: auto;
   display: flex;
-
+  min-height: 10rem;
+  justify-content: center;
+  padding: 1rem;
 }
 .the-player .cards .cards-wrapper::-webkit-scrollbar {
   width: 0px;
   height: 0px;
   background: transparent; /* make scrollbar transparent */
-}
-
-.the-player .cards .card {
-  min-width: 7.5rem;
 }

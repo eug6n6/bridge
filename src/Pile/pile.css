@@ -1,7 +1,7 @@
 .pile {
   position: relative;
-  width: 70%;
-  height: 100%
+  flex-grow: 1;
+  height: 12rem
 }
 .pile .card {
   position: absolute;
