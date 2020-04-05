@@ -1,4 +1,5 @@
 // const 
+import { emit } from '../API'
 const urlParams = new URLSearchParams(window.location.search)
 
 const defaultState = {
@@ -13,6 +14,11 @@ const defaultState = {
 }
 
 const getPlayerNotification = (state, newState) => {
+  if (newState.game && newState.game.ended) {
+    if (state.game && !state.game.ended) return 'Bridge!'
+    return
+  }
+
   if (state.game && state.game.players && newState.game && newState.game.players) {
     const playerIsOnline = newState.game.players
       .find((player, i) => player.online && !state.game.players[i].online)
@@ -28,9 +34,11 @@ const getPlayerNotification = (state, newState) => {
   if (newPlayer.canEnd) 
     return 'You can finish the game!'
   if (!newPlayer.canCoverWith.length && !newPlayer.canTake && !newPlayer.canEnd 
-      && newPlayer.canSkip)
-      // TODO send skip
+      && newPlayer.canSkip) {
+    emit('skip')
     return 'No moves left, pass...'
+  }
+    
   if (!newPlayer.canCoverWith.length && !newPlayer.canSkip && !newPlayer.canEnd
       && newPlayer.canTake)
     return 'No moves left, take a card!'
