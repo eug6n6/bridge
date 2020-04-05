@@ -15,10 +15,10 @@
     background: #dffbff;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    color: #000;
+    color: #16161f;
     font-weight: bold;
     text-transform: uppercase;
-    box-shadow: 0.25rem 0.25rem 1rem 0 #000;
+    box-shadow: 0.25rem 0.25rem 1rem 0 #16161f;
     opacity: 0.8;
     animation: scale-up-top 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }

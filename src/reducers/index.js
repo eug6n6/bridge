@@ -31,8 +31,10 @@ const getPlayerNotification = (state, newState) => {
   const oldPlayer = state.thePlayer
   const newPlayer = newState.thePlayer
   if (!newPlayer || !newPlayer.current) return null
-  if (newPlayer.canEnd) 
+  if (newPlayer.canEnd) {
+    if (!newPlayer.cards.length) emit('end')
     return 'You can finish the game!'
+  }
   if (!newPlayer.canCoverWith.length && !newPlayer.canTake && !newPlayer.canEnd 
       && newPlayer.canSkip) {
     emit('skip')

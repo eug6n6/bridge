@@ -36,10 +36,10 @@
 .game .players .player {
   margin: 0.5rem;
   padding: 0.5rem;
-  background: #000;
+  background: #16161f;
   border-radius: 1rem;
   position: relative;
-  width: 10rem;
+  min-width: 10rem;
   overflow: hidden;
   font-weight: normal;
   display: flex;
@@ -77,7 +77,7 @@
 .game .players .player .cards-number {
   position: absolute;
   font-size: 2rem;
-  color: #000;
+  color: #16161f;
   left: 0;
   top: 0;
   right: 0;
@@ -98,7 +98,7 @@
   margin: 0 3rem ;
   font-size: 2rem;
   background: none;
-  color: #000;
+  color: #16161f;
   text-shadow: 0 0 3px #00fff2, 0 0 6px #00fff2, 0 0 9px #00fff2;
   overflow: hidden;
   border: none;

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { emit } from '../API'
+import { emit, connect as connectAPI } from '../API'
+import { setNotification } from '../actions'
 import './start.css'
 
 class Start extends React.Component {
@@ -27,12 +28,16 @@ class Start extends React.Component {
   }
 
   render() {
-    const { id, player, game } = this.props
+    const { id, thePlayer, game } = this.props
 
-    let url = window.location.href
     const urlParams = new URLSearchParams(window.location.search)
-    if (!urlParams.get('game')) url += '?game=' + id
-
+    if ( id && !urlParams.has('game')) {
+      urlParams.append('game', id)
+      window.history.replaceState(null, null, '?' + urlParams.toString());
+      connectAPI()
+    }
+    const url = window.location.href
+    
     return (
       <React.Fragment>
         <div className="start">
@@ -52,12 +57,12 @@ class Start extends React.Component {
               <button onClick={this.create}>Start new game</button>
             </div>
           }
-          {game && !player &&
+          {game && !thePlayer &&
             <div className="play">
               <div className="link">
                 <h2>Share link with friends:</h2>
-                <CopyToClipboard text={url}>
-                  <div className="url">{url}</div>
+                <CopyToClipboard text={url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
+                  <div className="url">{url} <span role="img" aria-label="copy">📋</span></div>
                 </CopyToClipboard>
               </div>
               <div className="btns">
@@ -76,4 +81,7 @@ class Start extends React.Component {
   }
 }
 
-export default connect(({ id, player, game }) => ({ id, player, game }))(Start)
+export default connect(
+  ({ id, thePlayer, game }) => ({ id, thePlayer, game }),
+  { setNotification }
+)(Start)

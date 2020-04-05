@@ -3,29 +3,14 @@ import { updateGame, setNotification } from './actions'
 import store from './store'
 
 
-const urlParams = new URLSearchParams(window.location.search)
-const params = {
-  game: urlParams.get('game'),
-  player: urlParams.get('player')
-}
-
 let socket = null
 
 const URL = '//localhost:4020'
 // const URL = '/'
 
-
-const getUrl = (URL, { game, player }) => {
-  if (game) {
-    URL += '?game=' + game
-    if (player)
-      URL += '&player=' + player
-  }
-  return URL
-}
-
 const connect = () => {
-  socket = openSocket(getUrl(URL, params))
+  const urlParams = new URLSearchParams(window.location.search)
+  socket = openSocket(URL + '?' + urlParams.toString())
   socket.on('invalid', console.error)
   socket.on('state', state => {
     console.log(state)
@@ -42,4 +27,4 @@ const emit = (event, data) => {
     socket.emit(event, data)
 }
 
-export { emit, connect, params }
+export { emit, connect }

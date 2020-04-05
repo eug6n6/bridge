@@ -1,0 +1,41 @@
+.end {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.end h2 {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    background: #16161f;
+    color: #0f0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1.25rem;
+    font-weight: lighter;
+}
+
+.end .table {
+    display: flex;
+    background: #16161f;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.end .table .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 1rem;
+    padding: 1rem;
+}
+
+.end .table .player .points {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0.5rem;
+}

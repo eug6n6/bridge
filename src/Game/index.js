@@ -10,10 +10,7 @@ import './Game.css'
 
 
 
-const Game = ({ game, playerId }) => {
-
-  const thePlayer = game.players.find(player => player.id === playerId)
-  console.log(thePlayer)
+const Game = ({ game, thePlayer }) => {
 
   return (
     <div className="game">
@@ -29,24 +26,21 @@ const Game = ({ game, playerId }) => {
           {game.players.map(player =>
             <div className={'player ' + (player.current ? 'current ' : '') + (player === thePlayer ? 'the' : '')}>
               <h5>
-                <small>{player.online ? '🟢' : '🔴'} </small>
-                {player.name}</h5>
+                <small>{player.online ? '🟢' : '🔴'} </small> {player.name}
+              </h5>
               { player !== thePlayer &&
-                <React.Fragment>
                   <div className="card xs unknown"> 
                     <div className="cards-number">{player.cards.length}</div>
                   </div>
-                </React.Fragment>
               }
             </div>
           )}
         </div>
       </div>
-      <ThePlayer />
-      {game && game.ended && <End />}
+      { thePlayer && <ThePlayer /> }
     </div>
   )
 
 }
 
-export default connect(({ game, player }) => ({ game, playerId: player }))(Game)
+export default connect(({ game, thePlayer }) => ({ game, thePlayer }))(Game)

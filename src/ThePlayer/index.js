@@ -16,16 +16,16 @@ const ThePlayer = ({ game, playerId }) => {
     <div className={'the-player ' + (player.current ? 'current' : '')}>
       <div className="cards">
         <div className="cards-wrapper">
-            {player.canSkip &&
-              <div className="card pass sm available"
-                   onClick={() => emit('skip')}>
-                     <span>Pass</span>
-              </div>
-            }
             {player.canEnd &&
               <div className="card bridge sm available"
                    onClick={() => emit('end')}>
                       <span>Bridge!</span>
+              </div>
+            }
+            {player.canSkip &&
+              <div className="card pass sm available"
+                   onClick={() => emit('skip')}>
+                     <span>Pass</span>
               </div>
             }
           {player.cards.sort(card1 => player.canCoverWith && player.canCoverWith.includes(card1) ? -1 : 1).map(card =>

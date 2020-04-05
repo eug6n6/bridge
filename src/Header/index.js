@@ -10,7 +10,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <header>
+                <header className={this.props.glow ? 'glow' : ''}>
                     <a href="/"><h1>Bridge</h1></a>
                     <button className="i" onClick={() => this.setState({ info: true })}>i</button>
                 </header>

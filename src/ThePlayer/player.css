@@ -1,6 +1,6 @@
 .the-player {
   width: 100%;
-  background: #000;
+  background: #16161f;
 }
 .the-player.current {
   box-shadow: 0 0 15px red;
@@ -13,11 +13,16 @@
   overflow-y: auto;
   display: flex;
   min-height: 10rem;
-  justify-content: center;
+  justify-content: space-around;
   padding: 1rem;
+  flex-wrap: wrap;
 }
 .the-player .cards .cards-wrapper::-webkit-scrollbar {
   width: 0px;
   height: 0px;
   background: transparent; /* make scrollbar transparent */
+}
+
+.the-player .cards .card {
+  margin: 0.5rem;
 }
