@@ -73,7 +73,7 @@ module.exports = {
      */
     canEnd(player, pile) {
         return pile.getLastCard().name !== NAME['6'] && (
-            !player.cards.length || pile.canEnd()
+            !player.cards.length || player.cardsPut > 0 && pile.canEnd()
         )
     },
 

@@ -1,4 +1,4 @@
-
+// const 
 const urlParams = new URLSearchParams(window.location.search)
 
 const defaultState = {
@@ -13,6 +13,15 @@ const defaultState = {
 }
 
 const getPlayerNotification = (state, newState) => {
+  if (state.game && state.game.players && newState.game && newState.game.players) {
+    const playerIsOnline = newState.game.players
+      .find((player, i) => player.online && !state.game.players[i].online)
+    if (playerIsOnline) return `${playerIsOnline.name} is online`
+    const playerIsOffline = newState.game.players
+      .find((player, i) => !player.online && state.game.players[i].online)
+    if (playerIsOffline) return `${playerIsOffline.name} is offline`
+  }
+
   const oldPlayer = state.thePlayer
   const newPlayer = newState.thePlayer
   if (!newPlayer || !newPlayer.current) return null
