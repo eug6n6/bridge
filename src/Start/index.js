@@ -28,7 +28,7 @@ class Start extends React.Component {
   }
 
   render() {
-    const { id, thePlayer, game } = this.props
+    const { id, player, game } = this.props
 
     const urlParams = new URLSearchParams(window.location.search)
     if ( id && !urlParams.has('game')) {
@@ -57,7 +57,7 @@ class Start extends React.Component {
               <button onClick={this.create}>Start new game</button>
             </div>
           }
-          {game && !thePlayer &&
+          {game && !player &&
             <div className="play">
               <div className="link">
                 <h2>Share link with friends:</h2>
@@ -82,6 +82,6 @@ class Start extends React.Component {
 }
 
 export default connect(
-  ({ id, thePlayer, game }) => ({ id, thePlayer, game }),
+  ({ id, player, game }) => ({ id, player, game }),
   { setNotification }
 )(Start)

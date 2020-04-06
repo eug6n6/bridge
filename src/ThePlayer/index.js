@@ -4,12 +4,8 @@ import { emit } from '../API'
 import Card from '../Card'
 import './player.css'
 
-const ThePlayer = ({ game, playerId }) => {
-  console.log(playerId)
-  const player = game.players.find(player => playerId === player.id)
-  if (!player) return null
-
-
+const ThePlayer = ({ game, player }) => {
+  
   const attack = card => emit('attack', card)
 
   return (
@@ -28,8 +24,11 @@ const ThePlayer = ({ game, playerId }) => {
                      <span>Pass</span>
               </div>
             }
-          {player.cards.sort(card1 => player.canCoverWith && player.canCoverWith.includes(card1) ? -1 : 1).map(card =>
-            <Card card={card} 
+          {player.cards
+            .sort(card1 => player.canCoverWith && player.canCoverWith.includes(card1) ? -1 : 1)
+            .map(card =>
+              <Card key={card.id}
+                  card={card} 
                   onClick={() => player.current && player.canCoverWith.includes(card) && attack(card)}
                   available={player.current && player.canCoverWith.includes(card)} 
                   size={player.current ? 'sm' : 'xs'}
@@ -40,4 +39,4 @@ const ThePlayer = ({ game, playerId }) => {
     </div>
   )
 }
-export default connect(({ game, player }) => ({ game, playerId: player }))(ThePlayer)
+export default connect(({ game, player }) => ({ game, player }))(ThePlayer)

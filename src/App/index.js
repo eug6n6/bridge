@@ -6,18 +6,19 @@ import Start from '../Start'
 import End from '../End'
 import './App.css'
 
-const App = ({ game, thePlayer }) => {
+const App = ({ game, player }) => {
+  console.log(player)
   return (
     <React.Fragment>
       <div className={'bg ' + (!game ? 'glitch' : '')} />
       <div className="App">
         <Header glow={game} />
-        {game && thePlayer && !game.ended && <Game />}
-        {game && thePlayer && game.ended && <End />}
-        {(!game || !thePlayer) && <Start />}
+        {game && player && !game.ended && <Game />}
+        {game && player && game.ended && <End />}
+        {(!game || !player) && <Start />}
       </div>
     </React.Fragment>
   )
 }
 
-export default connect(({ game, thePlayer }) => ({ game, thePlayer }))(App)
+export default connect(({ game, player }) => ({ game, player }))(App)

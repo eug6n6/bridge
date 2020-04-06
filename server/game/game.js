@@ -1,4 +1,4 @@
-const uuid = require('uuid').v4
+const uuid = require('uuid').v1
 const rules = require('./rules')
 const Player = require('./player')
 const { Deck, Pile } = require('./containers')
@@ -7,6 +7,7 @@ class Game {
 
     currentPlayer = null
     players = []
+    clients = []
 
     ended = false
     playNumber = 0
@@ -52,7 +53,7 @@ class Game {
         this._lastSkipper = player
     }
     takeCard() {
-        if (this.deck.cards.length < 2 ) {
+        if (this.deck.cards.length < 2) {
             this.pile.moveToDeck(this.deck)
         }
         if (!rules.canTake(this.pile, this.currentPlayer))
@@ -92,36 +93,40 @@ class Game {
         this.currentPlayer.cardsPut = 0
     }
 
-    getState() {
-        const players = this.players.map(player => {
+    getState(playerId) {
+        const gameState = {
+            id: this.id,
+            deck: this.deck.cards.length,
+            pile: this.pile.cards.map(card => card.id),
+            ended: this.ended,
+            players: this.players.map(player => {
+                return {
+                    ...player.getData(),
+                    current: player === this.currentPlayer,
+                    cards: player.cards.length,
+                }
+            })
+        }
+
+        const player = this.players.find(player => player.id === playerId)
+        if (player) {
             const _player = {
-                id: player.id,
-                name: player.name,
-                online: player.online,
-                skip: player.skip,
-                cards: player.cards.map(card => card.id),
-                current: false,
-                winner: player.winner,
-                points: player.points
+                ...player.getData(),
+                current: player === this.currentPlayer,
+                cards: player.cards.map(card => card.id)
             }
-            if (player === this.currentPlayer) {
-                _player.current = true
+            if (_player.current) {
                 _player.canEnd = rules.canEnd(this.currentPlayer, this.pile)
                 _player.canSkip = rules.canSkip(this.pile, this.currentPlayer)
                 _player.canTake = rules.canTake(this.pile, this.currentPlayer)
-                _player.canCoverWith = _player.canEnd ? [] : this.currentPlayer.cards.filter(card =>
+                _player.canCoverWith = this.currentPlayer.cards.filter(card =>
                     rules.cardCanCover(card, this.pile, this.currentPlayer)
                 ).map(card => card.id)
             }
-            return _player
-        })
-        return {
-            id: this.id,
-            players,
-            deck: this.deck.cards.length,
-            pile: this.pile.cards.map(card => card.id),
-            ended: this.ended
+            gameState.player = _player
         }
+
+        return gameState
     }
 
 }

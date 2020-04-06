@@ -10,37 +10,37 @@ import './Game.css'
 
 
 
-const Game = ({ game, thePlayer }) => {
+const Game = ({ game, player }) => {
 
   return (
     <div className="game">
       <div className="table">
         <Deck length={game.deck}
           onClick={() => emit('take')}
-          available={thePlayer && thePlayer.current && thePlayer.canTake} />
+          available={player && player.current && player.canTake} />
         <Pile cards={game.pile} />
       </div>
 
       <div className="players">
         <div className="players-wrapper">
-          {game.players.map(player =>
-            <div className={'player ' + (player.current ? 'current ' : '') + (player === thePlayer ? 'the' : '')}>
+          {game.players.map(_player =>
+            <div key={_player.id} className={'player ' + (_player.current ? 'current ' : '') + (player.id === _player.id ? 'the' : '')}>
               <h5>
-                <small>{player.online ? '🟢' : '🔴'} </small> {player.name}
+                <small>{_player.online ? '🟢' : '🔴'} </small> {_player.name}
               </h5>
-              { player !== thePlayer &&
+              { _player.id !== player.id &&
                   <div className="card xs unknown"> 
-                    <div className="cards-number">{player.cards.length}</div>
+                    <div className="cards-number">{_player.cards}</div>
                   </div>
               }
             </div>
           )}
         </div>
       </div>
-      { thePlayer && <ThePlayer /> }
+      { player && <ThePlayer /> }
     </div>
   )
 
 }
 
-export default connect(({ game, thePlayer }) => ({ game, thePlayer }))(Game)
+export default connect(({ game, player }) => ({ game, player }))(Game)

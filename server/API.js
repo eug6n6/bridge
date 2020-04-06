@@ -11,8 +11,11 @@ const GAMES = {}
 
 const emitState = (client) => {
     if (!client.game) return
-    client.game.players.filter(player => player.client).forEach(player => {
-        player.client.emit('state', client.game.getState())
+    client.game.players.forEach(player => {
+        player.online =  client.game.clients.some(client => client.playerId === player.id)
+    })
+    client.game.clients.forEach(client => {
+        client.emit('state', client.game.getState(client.playerId))
     })
 }
 
@@ -40,54 +43,63 @@ const onAction = (client, action, data) => {
                 return emitState(client)
             default: return
         }
-    } catch (error) { 
+    } catch (error) {
         console.error(error)
-        client.emit('invalid', error.message) 
+        client.emit('invalid', error.message)
     }
 }
 
 io.on('connection', function (client) {
-
-    const gameId = client.handshake.query.game
-    const playerId = client.handshake.query.player
-
-    if (gameId) client.game = GAMES[gameId]
-    if (playerId) client.player = playerId
-    if (client.game && client.player) {
-        client.game.players[client.player - 1].client = client
-    }
-
-    console.log('Connected ' + gameId + '-' + playerId)
-
     try {
-        if (client.game && !client.player)
-            client.emit('state', client.game.getState())
-        if (!client.game)
-            client.on('start', data => onAction(client, 'start', data))
-        if (client.game && client.player) {
-            client.game.players[client.player - 1].online = true
-            emitState(client)
+        const gameId = client.handshake.query.game
+        const playerId = +client.handshake.query.player || null
 
+        if (!gameId) {
+            if (playerId)
+                return client.emit('req_error', 'player not found')
+            client.on('start', data => onAction(client, 'start', data))
+        } else {
+            const game = GAMES[gameId]
+            if (!game)
+                return client.emit('req_error', 'game not found')
+            
+            client.gameId = game.id
+            client.game = game
+            game.clients.push(client)
+            const player = game.players.find(player => player.id === playerId)
+            client.on('disconnect', () => {
+                game.clients.splice(game.clients.indexOf(client), 1)
+                if (player && !game.clients.some(client => client.gameId === game.id))
+                    player.online = false
+                emitState(client)
+            })
+            if (playerId && !player)
+                return client.emit('req_error', 'player not found')
+    
+            if (!playerId) {
+                client.emit('state', game.getState())
+                return
+            }
+    
+            client.playerId = player.id
+            player.online = true
+
+            emitState(client)
+    
             client.on('skip', data => onAction(client, 'skip', data))
             client.on('take', data => onAction(client, 'take', data))
             client.on('end', data => onAction(client, 'end', data))
             client.on('attack', data => onAction(client, 'attack', data))
         }
+
     } catch (error) {
         client.emit('error', error)
     }
+})
 
-    client.on('disconnect', () => {
-        if (client.game && client.player) {
-            const player = client.game.players[client.player - 1]
-            player.online = false
-            player.client = null
-            emitState(client)
-        }
-            
-    })
 
-});
+
+// });
 
 app.use(express.static('build'))
 app.get('/', (req, res) => res.sendfile('./build/index.html'))

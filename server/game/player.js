@@ -16,6 +16,17 @@ class Player extends Container {
         this.name = name
         this.id = id
     }
+
+    getData() {
+        return {
+            id: this.id, 
+            name: this.name, 
+            online: this.online, 
+            skip: this.skip, 
+            winner: this.winner, 
+            points: this.points
+        }
+    }
 }
 
 module.exports = Player

@@ -1,19 +1,13 @@
-// const 
 import { emit } from '../API'
-const urlParams = new URLSearchParams(window.location.search)
 
 const defaultState = {
     game: null,
-    
-    id: urlParams.get('game'),
-    player: +urlParams.get('player'),
-
-    thePlayer: null,
-    
+    player: null,
     notification: null
 }
 
 const getPlayerNotification = (state, newState) => {
+  
   if (newState.game && newState.game.ended) {
     if (state.game && !state.game.ended) return 'Bridge!'
     return
@@ -27,9 +21,10 @@ const getPlayerNotification = (state, newState) => {
       .find((player, i) => !player.online && state.game.players[i].online)
     if (playerIsOffline) return `${playerIsOffline.name} is offline`
   }
+  console.log('asd')
 
-  const oldPlayer = state.thePlayer
-  const newPlayer = newState.thePlayer
+  // const oldPlayer = state.thePlayer
+  const newPlayer = newState.player
   if (!newPlayer || !newPlayer.current) return null
   if (newPlayer.canEnd) {
     if (!newPlayer.cards.length) emit('end')
@@ -40,10 +35,11 @@ const getPlayerNotification = (state, newState) => {
     emit('skip')
     return 'No moves left, pass...'
   }
-    
+
   if (!newPlayer.canCoverWith.length && !newPlayer.canSkip && !newPlayer.canEnd
       && newPlayer.canTake)
     return 'No moves left, take a card!'
+  
   return 'Your turn'
 }
 
@@ -54,9 +50,10 @@ export default  (state = defaultState, action) => {
           ...state,
           game: action.game,
           id: action.game.id,
-          thePlayer: action.game && action.game.players.find(player => player.id === state.player)
+          player: action.game.player
         }
         const text = getPlayerNotification(state, newState)
+        console.log(text)
         if (text) newState.notification = { text, id: +new Date() }
         return  newState
       case 'NOTIFICATION':

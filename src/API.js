@@ -20,6 +20,14 @@ const connect = () => {
     console.log(state)
     store.dispatch(updateGame(state))
   })
+  socket.on('req_error', error => {
+    const urlParams = new URLSearchParams(window.location.search)
+    if (error === 'player not found')
+      urlParams.delete('player')
+    if (error === 'game not found')
+      urlParams.delete('game')
+      window.location.search = '?' + urlParams
+  })
 }
 
 const emit = (event, data) => {
