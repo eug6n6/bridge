@@ -18,6 +18,11 @@ const emitState = (client) => {
         client.emit('state', client.game.getState(client.playerId))
     })
 }
+const emitNotification = (game, text) => {
+    game.clients.forEach(client => {
+        client.emit('notification', text)
+    })
+}
 
 
 const onAction = (client, action, data) => {
@@ -90,6 +95,7 @@ io.on('connection', function (client) {
             client.on('take', data => onAction(client, 'take', data))
             client.on('end', data => onAction(client, 'end', data))
             client.on('attack', data => onAction(client, 'attack', data))
+            client.on('notification', data => emitNotification(game, data))
         }
 
     } catch (error) {

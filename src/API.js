@@ -13,12 +13,13 @@ const connect = () => {
   socket = openSocket(URL + '?' + urlParams.toString())
   socket.on('invalid', console.error)
   socket.on('state', state => {
-    console.log(state)
     store.dispatch(updateGame(state))
   })
   socket.on('started', state => {
-    console.log(state)
     store.dispatch(updateGame(state))
+  })
+  socket.on('notification', text => {
+    store.dispatch(setNotification(text))
   })
   socket.on('req_error', error => {
     const urlParams = new URLSearchParams(window.location.search)

@@ -3,7 +3,7 @@ import { emit } from '../API'
 const defaultState = {
     game: null,
     player: null,
-    notification: null
+    notifications: []
 }
 
 const getPlayerNotification = (state, newState) => {
@@ -21,11 +21,14 @@ const getPlayerNotification = (state, newState) => {
       .find((player, i) => !player.online && state.game.players[i].online)
     if (playerIsOffline) return `${playerIsOffline.name} is offline`
   }
-  console.log('asd')
 
-  // const oldPlayer = state.thePlayer
   const newPlayer = newState.player
-  if (!newPlayer || !newPlayer.current) return null
+  if (!newPlayer) return null
+  if (!newPlayer.current) {
+    if (state.player && newPlayer.skip > state.player.skip) 
+      return 'You skip'
+    return null
+  }
   if (newPlayer.canEnd) {
     if (!newPlayer.cards.length) emit('end')
     return 'You can finish the game!'
@@ -43,6 +46,15 @@ const getPlayerNotification = (state, newState) => {
   return 'Your turn'
 }
 
+const addNotification = (state, text) => {
+  const notifications = [
+    { text: text, id: +new Date() }, 
+    ...state.notifications
+  ]
+  if (notifications.length > 5) notifications.pop()
+  return notifications
+}
+
 export default  (state = defaultState, action) => {
     switch (action.type) {
       case 'UPDATE_GAME':
@@ -53,14 +65,10 @@ export default  (state = defaultState, action) => {
           player: action.game.player
         }
         const text = getPlayerNotification(state, newState)
-        console.log(text)
-        if (text) newState.notification = { text, id: +new Date() }
+        if (text) newState.notifications = addNotification(state, text)
         return  newState
       case 'NOTIFICATION':
-        return {
-          ...state,
-          notification: !action.text ? null : { text: action.text, id: +new Date() }
-        }
+        return { ...state, notifications: addNotification(state, action.text) }
       default:
         return state
     }

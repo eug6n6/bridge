@@ -12,7 +12,7 @@
 .the-player .cards .cards-wrapper {
   overflow-y: auto;
   display: flex;
-  min-height: 10rem;
+  min-height: 7srem;
   justify-content: space-around;
   padding: 1rem;
   flex-wrap: wrap;
@@ -25,4 +25,17 @@
 
 .the-player .cards .card {
   margin: 0.5rem;
+}
+
+.the-player .emojis {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+.the-player .emojis span {
+  font-size: 2rem;
+  margin: 1rem;
+  cursor: pointer;
 }
