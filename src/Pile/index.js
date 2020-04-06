@@ -3,14 +3,19 @@ import Card from '../Card'
 import './pile.css'
 
 export default props => {
-    const getPadding = (i, length) => length - 4 > i ? (0.1 * i + 'rem') : ((i - (length - 5)) * 2 + 'rem')
+    const { cards } = props
+    const last = cards.slice(-5)
+    const hidden = cards.slice(-10, -5)
+    console.log(cards)
 
-    const cards = [...props.cards,...props.cards,...props.cards,]
-    
+
     return (
         <div className="pile">
-            { props.cards.map((card, i) =>
-                <Card card={card} key={i} style={{ left: getPadding(i, props.cards.length) }} />
+            {hidden.map((card, i) =>
+                <div key={i} className="card under" style={{ marginRight: i === hidden.length - 1 ? '-0.5rem' : '0.5rem' }} />
+            )}
+            {last.map((card, i) =>
+                <Card card={card} key={i} className={"covered"} />
             )}
         </div>
     )

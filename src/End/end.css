@@ -30,12 +30,49 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 1rem;
+    margin: 0;
     padding: 1rem;
+}
+.end .table .player.current {
+    box-shadow: 0 0 10px #fff;
 }
 
 .end .table .player .points {
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0.5rem;
+}
+
+.end .btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.end .btns a, .end .btns button {
+    display: block;
+    width: 40%;
+    background: #16161f;
+    padding: 1rem;
+    color: #f1f1f6;
+    font-size: 1.75rem;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+.end .btns a {
+    box-shadow: 0 0 15px #f00;
+}
+.end .btns a:hover, .end .btns a:active {
+    box-shadow: 0 0 30px #f00;
+}
+
+.end .btns button {
+    box-shadow: 0 0 15px #0f0;
+}
+.end .btns button:hover, .end .btns button:active {
+    box-shadow: 0 0 30px #0f0;
 }

@@ -1,4 +1,4 @@
-const uuid = require('uuid').v1
+const id = require('shortid')
 const rules = require('./rules')
 const Player = require('./player')
 const { Deck, Pile } = require('./containers')
@@ -12,19 +12,29 @@ class Game {
     ended = false
     playNumber = 0
 
-    _lastSkipper = null
+    // _lastSkipper = null
 
-    constructor(playersNames) {
-        this.players = playersNames.map((name, i) => new Player(name, i + 1))
-        this.id = uuid()
+    constructor(playersNumber) {
+        this.createdAt = new Date()
+        this.players = Array.from(new Array(playersNumber))
+                            .map((_, i) => new Player('', i + 1))
+        this.id = id.generate()
     }
 
     start() {
         this.deck = new Deck().fill().shuffle()
         this.pile = new Pile()
-        this.players.forEach(player =>
+        this.playNumber++
+        this.ended = false
+        this.currentPlayer = null
+        this.players.forEach(player => {
+            player.cards = []
             this.deck.moveLastCardTo(player, 5)
-        )
+            player.winner = false
+            player.skip = 0
+            player.cardsTaken = 0
+            player.cardsPut = 0
+        })
         this._nextPlayer()
         this.attack(this.players[0].getLastCard().id, 'start')
     }
@@ -44,13 +54,16 @@ class Game {
         const next = (player) => {
             let nextIndex = this.players.indexOf(player) + 1
             if (nextIndex >= this.players.length) nextIndex = 0
-            if (this.players[nextIndex] === this.currentPlayer)
-                return next(this.currentPlayer)
             return this.players[nextIndex]
         }
-        const player = next(this._lastSkipper || this.currentPlayer)
-        player.skip++
-        this._lastSkipper = player
+        let player = next(this.currentPlayer)
+        while (player !== this.currentPlayer) {
+            if (!player.skip) {
+                player.skip = 1
+                break
+            }
+            player = next(player)
+        }
     }
     takeCard() {
         if (this.deck.cards.length < 2) {
@@ -70,9 +83,8 @@ class Game {
         if (!rules.canEnd(this.currentPlayer, this.pile))
             throw new Error('You cannot end')
         this.ended = true
-        // TODO false on start
         this.currentPlayer.winner = true
-        this.players.forEach(player => player.points += rules.getPoints(player.cards))
+        this.players.forEach(player => player.points.push(rules.getPoints(player.cards)))
     }
 
     getNextPlayer() {
@@ -86,7 +98,7 @@ class Game {
     _nextPlayer() {
         this.currentPlayer = this.getNextPlayer()
         while (this.currentPlayer.skip > 0) {
-            this.currentPlayer.skip--
+            this.currentPlayer.skip = 0
             this.currentPlayer = this.getNextPlayer()
         }
         this.currentPlayer.cardsTaken = 0

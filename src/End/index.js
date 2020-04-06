@@ -1,28 +1,31 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { emit } from '../API'
+import { connect } from 'react-redux'
 import './end.css'
 
-const End = ({ game }) => {
+const End = ({ game, player }) => {
   if (!game) return null
   const winner = game.players.find(player => player.winner)
-
+  const win = winner.id === player.id
   return (
     <div className="end">
-      <h2><b>{winner.name}</b> wins!</h2>
+      <h2><b>{win ? 'You' : winner.name}</b> won!</h2>
 
       <div className="table">
-        {game.players.map(player =>
-          <div key={player.id} className="player">
-            <h3>{player.name}</h3>
-            <div className="points">{player.points}</div>
+        {game.players.map((_player, i) =>
+          <div key={i} className={"player " + (player.id === _player.id ? 'current' : '')}>
+            <h3>{_player.name}</h3>
+            {_player.points.map((points, i) =>
+              <div key={i} className="points">{points}</div>
+            )}
+            <div className="points">Total: {_player.points.reduce((t, p) => t + p, 0)}</div>
           </div>
         )}
       </div>
 
-
-      <div>
-        <a href="/">Repeat</a>
+      <div className="btns">
+        <a href="/">Exit</a>
+        <button onClick={() => emit('restart')}>Repeat</button>
       </div>
 
     </div>
@@ -30,4 +33,4 @@ const End = ({ game }) => {
 
 }
 
-export default connect(({ game }) => ({ game }))(End)
+export default connect(({ game, player }) => ({ game, player }))(End)

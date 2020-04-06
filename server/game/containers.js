@@ -8,7 +8,7 @@ class Container {
         while (number--) container.cards.push(this.cards.pop())
     }
     moveFirstCardTo(container, number = 1) {
-        while (number--) container.cards.push(this.cards.shift())
+        while (number-- > 0) container.cards.push(this.cards.shift())
     }
 
     moveCardTo(card, container) {

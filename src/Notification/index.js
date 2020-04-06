@@ -5,15 +5,13 @@ import './notification.css'
 
 const Notification = ({ notifications }) => {
     return (
-        <React.Fragment>
-            <div className="notification">
-                {notifications.map(notification =>
-                    <div className="box" key={notification.id}>
-                        {notification.text}
-                    </div>
-                )}
-            </div>
-        </React.Fragment>
+        <div className="notifications-wrapper">
+            {notifications.map((notification, i) =>
+                <div className="notification" key={notification.id}>
+                    {notification.text}
+                </div>
+            )}
+        </div>
     )
 
 }

@@ -8,7 +8,7 @@ class Player extends Container {
     cardsTaken = 0
     cardsPut = 0
     
-    points = 0
+    points = []
     winner = false
 
     constructor(name, id) {

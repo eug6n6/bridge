@@ -4,11 +4,7 @@ import { emit } from '../API'
 import Deck from '../Deck'
 import Pile from '../Pile'
 import ThePlayer from '../ThePlayer'
-import End from '../End'
 import './Game.css'
-
-
-
 
 const Game = ({ game, player }) => {
 

@@ -6,7 +6,12 @@ const defaultState = {
     notifications: []
 }
 
-const getPlayerNotification = (state, newState) => {
+const becomesCurrent = (oldPlayer, newPlayer) => {
+  if (!newPlayer) return false
+  return (!oldPlayer || !oldPlayer.current) && newPlayer.current
+}
+
+const handleGame = (state, newState) => {
   
   if (newState.game && newState.game.ended) {
     if (state.game && !state.game.ended) return 'Bridge!'
@@ -33,17 +38,16 @@ const getPlayerNotification = (state, newState) => {
     if (!newPlayer.cards.length) emit('end')
     return 'You can finish the game!'
   }
-  if (!newPlayer.canCoverWith.length && !newPlayer.canTake && !newPlayer.canEnd 
-      && newPlayer.canSkip) {
+  if (!newPlayer.canCoverWith.length && !newPlayer.canTake 
+        && !newPlayer.canEnd && newPlayer.canSkip) {
     emit('skip')
-    return 'No moves left, pass...'
+    return 
   }
-
-  if (!newPlayer.canCoverWith.length && !newPlayer.canSkip && !newPlayer.canEnd
-      && newPlayer.canTake)
-    return 'No moves left, take a card!'
-  
-  return 'Your turn'
+  if (becomesCurrent(state.player, newPlayer)) {
+    if (!localStorage.getItem('soundOff')) 
+      new Audio('/sound.ogg').play()
+    return 'Your turn!'
+  }
 }
 
 const addNotification = (state, text) => {
@@ -64,8 +68,9 @@ export default  (state = defaultState, action) => {
           id: action.game.id,
           player: action.game.player
         }
-        const text = getPlayerNotification(state, newState)
+        const text = handleGame(state, newState)
         if (text) newState.notifications = addNotification(state, text)
+        becomesCurrent(state.player, newState.player)
         return  newState
       case 'NOTIFICATION':
         return { ...state, notifications: addNotification(state, action.text) }

@@ -3,10 +3,18 @@ const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const Game = require('./game')
-const { generateName } = require('./utils')
 
 
 const GAMES = {}
+setInterval(() => {
+    Object.keys(GAMES).filter(id => {
+        const d = new Date()
+        d.setMinutes(d.getMinutes() - 10)
+        return GAMES[id].createdAt < d
+    }).filter(id => 
+        !GAMES[id].players.some(player => player.online)
+    ).forEach(id => delete GAMES[id])
+}, 20000)
 
 
 const emitState = (client) => {
@@ -29,8 +37,7 @@ const onAction = (client, action, data) => {
     try {
         switch (action) {
             case 'start':
-                const names = Array.from(new Array(data)).map(() => generateName())
-                const game = new Game(names)
+                const game = new Game(data)
                 GAMES[game.id] = game
                 game.start()
                 return client.emit('started', game.getState())
@@ -83,11 +90,22 @@ io.on('connection', function (client) {
     
             if (!playerId) {
                 client.emit('state', game.getState())
+                client.on('username', username => {
+                    const player = game.players.find(player => !player.name)
+                    if (!player) return client.emit('req_error', 'player not found')
+                    player.name = username
+                    client.emit('redirect_to_game', { gameId: game.id, playerId: player.id })
+                })
                 return
             }
     
             client.playerId = player.id
             player.online = true
+
+            client.on('restart', () => {
+                game.start()
+                emitState(client)
+            })
 
             emitState(client)
     

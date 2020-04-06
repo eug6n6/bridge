@@ -1,11 +1,18 @@
 .pile {
   position: relative;
   flex-grow: 1;
-  height: 12rem
+  height: 12rem;
+  display: flex;
+  justify-content: center;
 }
-.pile .card {
-  position: absolute;
-  top: 0;
+.pile .card.covered {
+  margin-left: -6rem;
+}
+.pile .card.under {
+  margin-left: -7.5rem;
+}
+.pile .under:last-child {
+  margin-right: -1rem;
 }
 .pile .card:nth-child(even) {
   top: 0.1rem;

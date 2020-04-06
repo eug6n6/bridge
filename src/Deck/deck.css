@@ -2,6 +2,7 @@
   position: relative;
   height: 12rem;
   margin: 0 2rem;
+  z-index: 30;
 }
 .deck .cards {
   display: flex;

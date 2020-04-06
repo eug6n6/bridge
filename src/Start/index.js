@@ -10,11 +10,12 @@ class Start extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      playersNumber: 2
+      playersNumber: 2,
+      name: localStorage.getItem('name') || ''
     }
   }
 
-  create = () => {
+  start = () => {
     emit('start', this.state.playersNumber)
   }
 
@@ -27,17 +28,30 @@ class Start extends React.Component {
     this.setState({ playersNumber: this.state.playersNumber - 1 })
   }
 
+  create() {
+    emit('username', this.state.name)
+    console.log(this.state.name)
+    localStorage.setItem('name', this.state.name)
+  }
+
   render() {
     const { id, player, game } = this.props
 
     const urlParams = new URLSearchParams(window.location.search)
-    if ( id && !urlParams.has('game')) {
+    if (id && !urlParams.has('game')) {
       urlParams.append('game', id)
       window.history.replaceState(null, null, '?' + urlParams.toString());
       connectAPI()
     }
     const url = window.location.href
-    
+
+    const namedAvailableUsers = game ? game.players.filter(player =>
+      !player.online && player.name
+    ) : []
+    const canCreateUser = game ? game.players.some(player =>
+      !player.online && !player.name
+    ) : false
+
     return (
       <React.Fragment>
         <div className="start">
@@ -54,26 +68,40 @@ class Start extends React.Component {
                   <button onClick={this.inc}>+</button>
                 </div>
               </div>
-              <button onClick={this.create}>Start new game</button>
+              <button onClick={this.start}>Start new game</button>
             </div>
           }
           {game && !player &&
             <div className="play">
               <div className="link">
                 <h2>Share link with friends:</h2>
-                <CopyToClipboard text={url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
+                <CopyToClipboard text={'Join me in Bridge: ' + url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
                   <div className="url">{url} <span role="img" aria-label="copy">📋</span></div>
                 </CopyToClipboard>
               </div>
-              <div className="btns">
-                <h2>Play as:</h2>
-                <div className="names">
-                  { game.players.filter(player => !player.online).map(player =>
-                    <a key={player.id} href={url + '&player=' + player.id}>{player.name}</a>                  
-                  )}
+              {canCreateUser &&
+                <div className="create">
+                  <h2>Start playing: </h2>
+                  <div className="form">
+                    <input type="text" maxLength="10" placeholder="nickname"
+                      onKeyPress={({ key }) => key === 'Enter' && this.state.name && this.create()}
+                      onChange={({ target }) => this.setState({ name: target.value })} value={this.state.name} />
+                    <button disabled={!this.state.name} onClick={() => this.create()}>Play</button>
+                  </div>
                 </div>
-              </div>
+              }
+              {!!namedAvailableUsers.length &&
+                <div className="btns">
+                  <h2>Play as:</h2>
+                  <div className="names">
+                    {namedAvailableUsers.filter(player => !player.online && player.name).map(player =>
+                      <a key={player.id} href={url + '&player=' + player.id}>{player.name}</a>
+                    )}
+                  </div>
+                </div>
+              }
             </div>
+
           }
         </div>
       </React.Fragment>

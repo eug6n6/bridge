@@ -8,17 +8,18 @@ const suitToChar = {
     SPADES: '♠',
 }
 
-export default ({ card, available, size, onClick, style}) => {
+export default ({ card, available, size, onClick, style, className}) => {
     let [ name, suit ] = card.split('_')
      
     const suitChar = suitToChar[suit]  || ''
     const shortName = name.length > 2 ? name[0] : name || ''
     
     size = size || ''
+    className = className || ''
     available = available ? 'available' : ''
 
     return (
-        <div className={`card ${name} ${suit} ${available} ${size} `} 
+        <div className={`card ${name} ${suit} ${available} ${size} ${className}`} 
              onClick={onClick} style={style} >
             <div className="name">
                 { [1, 2].map(i => <span key={i}>{suitChar} <br /> {shortName} </span>)}

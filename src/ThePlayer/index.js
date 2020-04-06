@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react'
 import { connect } from 'react-redux'
 import { emit } from '../API'
@@ -10,9 +11,12 @@ const Sticker = ({ children, playerName}) => {
   )
 }
 
-const ThePlayer = ({ game, player }) => {
+const ThePlayer = ({ player }) => {
 
   const attack = card => emit('attack', card)
+
+  // if (player.current && !localStorage.getItem('soundOff')) 
+  //   new Audio('/sound.ogg').play()
 
   return (
     <div className={'the-player ' + (player.current ? 'current' : '')}>
@@ -31,9 +35,9 @@ const ThePlayer = ({ game, player }) => {
             </div>
           }
           {player.cards
-            .sort(card1 => player.canCoverWith && player.canCoverWith.includes(card1) ? -1 : 1)
-            .map(card =>
-              <Card key={card.id}
+            .map((card, i) =>
+              <Card 
+                key={i}
                 card={card}
                 onClick={() => player.current && player.canCoverWith.includes(card) && attack(card)}
                 available={player.current && player.canCoverWith.includes(card)}
@@ -44,6 +48,7 @@ const ThePlayer = ({ game, player }) => {
       </div>
 
       <div className="emojis">
+        <Sticker playerName={player.name}>✋</Sticker>
         <Sticker playerName={player.name}>🤨</Sticker>
         <Sticker playerName={player.name}>😁</Sticker>
         <Sticker playerName={player.name}>🙃</Sticker>

@@ -17,6 +17,7 @@ const App = ({ game, player }) => {
         {game && player && game.ended && <End />}
         {(!game || !player) && <Start />}
       </div>
+      <div className="loader" />
     </React.Fragment>
   )
 }
