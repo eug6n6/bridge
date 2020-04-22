@@ -66,7 +66,7 @@ class Game {
         }
     }
     takeCard() {
-        if (this.deck.cards.length < 2) {
+        if (this.deck.cards.length < 5) {
             this.pile.moveToDeck(this.deck)
         }
         if (!rules.canTake(this.pile, this.currentPlayer))
@@ -85,6 +85,12 @@ class Game {
         this.ended = true
         this.currentPlayer.winner = true
         this.players.forEach(player => player.points.push(rules.getPoints(player.cards)))
+        const winner = this.players.reduce((winner, player) => 
+            player.points[player.points.length -1] < winner.points[winner.points.length - 1]
+                ? player : winner, 
+            this.players[0]
+        )
+        winner.winner = true
     }
 
     getNextPlayer() {
@@ -125,7 +131,7 @@ class Game {
             const _player = {
                 ...player.getData(),
                 current: player === this.currentPlayer,
-                cards: player.cards.map(card => card.id)
+                cards: player.cards.filter(card => card).map(card => card.id)
             }
             if (_player.current) {
                 _player.canEnd = rules.canEnd(this.currentPlayer, this.pile)

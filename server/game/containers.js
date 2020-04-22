@@ -56,7 +56,7 @@ class Deck extends Container {
 
 class Pile extends Container {
     moveToDeck(deck) {
-        this.moveFirstCardTo(deck, deck.cards.length - 4)
+        this.moveFirstCardTo(deck, this.cards.length - 4)
         deck.shuffle()
     }
     canEnd() {

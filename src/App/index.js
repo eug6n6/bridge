@@ -6,10 +6,22 @@ import Start from '../Start'
 import End from '../End'
 import './App.css'
 
+const BG_NUMBER = 12
+const getRandomBgStyle = () => {
+  return `
+    .bg {
+      background-image: url("/bg/bridge (${1 + Math.floor(Math.random() * BG_NUMBER)}).jpg")
+    }
+  `
+}
+const randomBgStyle = getRandomBgStyle()
+
 const App = ({ game, player }) => {
-  console.log(player)
+  game && console.log('pile: ' + game.pile + ', deck: ' + game.deck)
+  
   return (
     <React.Fragment>
+      <style>{randomBgStyle}</style>
       <div className={'bg ' + (!game ? 'glitch' : '')} />
       <div className="App">
         <Header glow={game} />

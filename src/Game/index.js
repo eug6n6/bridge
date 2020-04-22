@@ -21,19 +21,19 @@ const Game = ({ game, player }) => {
         <div className="players-wrapper">
           {game.players.map(_player =>
             <div key={_player.id} className={'player ' + (_player.current ? 'current ' : '') + (player.id === _player.id ? 'the' : '')}>
-              <h5>
-                <small>{_player.online ? '🟢' : '🔴'} </small> {_player.name}
-              </h5>
-              { _player.id !== player.id &&
-                  <div className="card xs unknown"> 
-                    <div className="cards-number">{_player.cards}</div>
-                  </div>
+              <div>
+                <span role="img" className="online">{_player.online ? '🟢' : '🔴'} </span> {_player.name}
+              </div>
+              {_player.id !== player.id &&
+                <div className="card xs unknown">
+                  <div className="cards-number">{_player.cards}</div>
+                </div>
               }
             </div>
           )}
         </div>
       </div>
-      { player && <ThePlayer /> }
+      {player && <ThePlayer />}
     </div>
   )
 

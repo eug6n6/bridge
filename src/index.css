@@ -21,7 +21,9 @@ html, body, #root {
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  background: url(https://images.unsplash.com/photo-1532699665201-76364e4bbb93?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3132&q=80) no-repeat center / cover;
+  /* background: url(https://images.unsplash.com/photo-1532699665201-76364e4bbb93?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3132&q=80) no-repeat center / cover; */
+  background-position: center;
+  background-size: cover;
   left: 0;
   top: 0;
 }

@@ -29,7 +29,8 @@
   background-size: 5rem;
 }
 .card.available {
-  animation: rotate 0.5s ease-out infinite alternate;
+  box-sizing: border-box;
+  animation: shadow 0.5s ease-out infinite alternate;
 }
 
 .card .name {
@@ -129,11 +130,13 @@
 }
 
 
-@keyframes rotate {
+@keyframes shadow {
   from {
-    transform: rotate(5deg);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 0 0.25rem rgba(255,255,255,0.25);
   }
   to {
-    transform: rotate(0);
+    border: 1px solid rgba(100,100,100,0.75);
+    box-shadow: 0 0 1rem rgba(255,255,200,0.75);
   }
 }

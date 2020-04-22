@@ -6,8 +6,6 @@ export default props => {
     const { cards } = props
     const last = cards.slice(-5)
     const hidden = cards.slice(-10, -5)
-    console.log(cards)
-
 
     return (
         <div className="pile">

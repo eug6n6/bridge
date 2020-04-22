@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat+Alternates&display=swap");
 
 .game {
   display: flex;
@@ -10,6 +10,9 @@
   min-height: 12rem;
   flex-grow: 1;
   align-items: center;
+  margin: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  position: relative;
 }
 .game .help {
   text-align: center;
@@ -28,7 +31,7 @@
   background: transparent; /* make scrollbar transparent */
 }
 .players-wrapper {
-  display: flex; 
+  display: flex;
   overflow-y: auto;
   align-items: flex-end;
   padding: 1rem 1rem 0 1rem;
@@ -45,21 +48,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 7rem;
+  overflow: hidden;
 }
 .game .players .player.current {
-  box-shadow: 0 0 15px red;
+  animation: shadow 0.5s ease-out infinite alternate;
   z-index: 1;
 }
-.game .players .player h5 {
-  margin: 0;
+.game .players .player .online {
+  opacity: 0.5;
 }
 .game .players .player.the {
-  border-radius: 1rem 1rem 0 0 ;
+  border-radius: 1rem 1rem 0 0;
   margin-bottom: 0;
   font-weight: bold;
+  border-top: 1px solid #414445;
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: 0 0 0.5rem #414445;
 }
 .game .players .card {
-  margin-bottom: -3rem;
+  margin-bottom: -4rem;
 }
 
 /* .game .players .player.the::after {
@@ -72,17 +80,17 @@
   background: rgba(66,66,66,0.5);
 } */
 .game .players .player.current.the::after {
-  background: rgba(66,66,166,0.5);
+  background: rgba(66, 66, 166, 0.5);
 }
 .game .players .player .cards-number {
   position: absolute;
-  font-size: 2rem;
+  font-size: 1.25rem;
   color: #16161f;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  background: rgba(220,230,240,0.5);
+  background: rgba(220, 230, 240, 0.5);
   text-align: center;
   font-weight: bold;
 }
@@ -95,7 +103,7 @@
   justify-content: center;
 }
 .game .actions button {
-  margin: 0 3rem ;
+  margin: 0 3rem;
   font-size: 2rem;
   background: none;
   color: #16161f;

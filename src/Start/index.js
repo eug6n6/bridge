@@ -30,7 +30,6 @@ class Start extends React.Component {
 
   create() {
     emit('username', this.state.name)
-    console.log(this.state.name)
     localStorage.setItem('name', this.state.name)
   }
 
@@ -75,7 +74,7 @@ class Start extends React.Component {
             <div className="play">
               <div className="link">
                 <h2>Share link with friends:</h2>
-                <CopyToClipboard text={'Join me in Bridge: ' + url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
+                <CopyToClipboard text={url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
                   <div className="url">{url} <span role="img" aria-label="copy">📋</span></div>
                 </CopyToClipboard>
               </div>

@@ -6,10 +6,10 @@ import store from './store'
 let socket = null
 
 // Dev
-// const URL = '//localhost:4020'
+const URL = '//localhost:4020'
 
 // Prod
-const URL = '/'
+// const URL = '/'
 
 const connect = () => {
   const urlParams = new URLSearchParams(window.location.search)
