@@ -83,11 +83,12 @@ class Game {
         if (!rules.canEnd(this.currentPlayer, this.pile))
             throw new Error('You cannot end')
         this.ended = true
-        this.currentPlayer.winner = true
-        this.players.forEach(player => player.points.push(rules.getPoints(player.cards)))
+
+        this.players.forEach(player => {
+            player.lastGamePoints = rules.getPoints(player.cards)
+        })
         const winner = this.players.reduce((winner, player) => 
-            player.points[player.points.length -1] < winner.points[winner.points.length - 1]
-                ? player : winner, 
+            player.lastGamePoints < winner.lastGamePoints ? player : winner, 
             this.players[0]
         )
         winner.winner = true

@@ -8,13 +8,23 @@ class Player extends Container {
     cardsTaken = 0
     cardsPut = 0
     
-    points = []
+    _points = []
     winner = false
 
     constructor(name, id) {
         super()
         this.name = name
         this.id = id
+    }
+
+    set lastGamePoints(points) {
+        this._points.push(points)
+    }
+    get lastGamePoints() {
+        return this._points[this._points.length - 1] || 0
+    }
+    get points() {
+        return this._points
     }
 
     getData() {

@@ -6,8 +6,8 @@ import store from './store'
 let socket = null
 
 // Dev
-const URL = '//localhost:4020'
-
+// const URL = '//localhost:4020'
+const URL = '//192.168.0.104:4020'
 // Prod
 // const URL = '/'
 
