@@ -5,3 +5,7 @@ export const updateGame = game => ({
 export const setNotification = text => ({
   type: 'NOTIFICATION', text
 })
+
+export const setConfig = (config, value) => ({
+  type: 'CONFIG', config, value
+})

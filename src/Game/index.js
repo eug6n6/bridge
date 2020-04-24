@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { emit } from '../API'
-import Deck from '../Deck'
-import Pile from '../Pile'
-import ThePlayer from '../ThePlayer'
+import Deck from './Deck'
+import Pile from './Pile'
+import ThePlayer from './ThePlayer'
 import './Game.css'
 
 const Game = ({ game, player }) => {
@@ -22,7 +22,8 @@ const Game = ({ game, player }) => {
           {game.players.map(_player =>
             <div key={_player.id} className={'player ' + (_player.current ? 'current ' : '') + (player.id === _player.id ? 'the' : '')}>
               <div>
-                <span role="img" className="online">{_player.online ? '🟢' : '🔴'} </span> {_player.name}
+                <span role="img" className={_player.online ? "online" : 'offline'} />
+                {_player.name}
               </div>
               {_player.id !== player.id &&
                 <div className="card xs unknown">

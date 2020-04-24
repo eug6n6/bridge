@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css?family=Codystar:300&display=swap");
+
+header {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #16161f;
+}
+header a {
+  text-decoration: none;
+}
+header h1 {
+  font-family: "Codystar";
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 1.5rem;
+  color: #fff;
+}
+header.glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+header button {
+  border-radius: 50%;
+  font-size: 0.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid #fff;
+  background: no-repeat;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  margin: 0 0.5rem;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 420;
+  background: rgba(250,250,250,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal .content {
+  background: #16161f;
+  padding: 2rem;
+  border-radius: 1rem;
+  position: relative;
+  min-width: 30%;
+}
+.modal .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 1rem;
+  color: red;
+  font-size: 1rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: none;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.rule {
+  margin: 0.5rem 0;
+}
+.rule span.red {
+  color: red;
+}
+
+.config {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #000;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.config.on {
+  background: #000;
+}
+.config.on::before, .config.off::before {
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+.config.on::before {
+  content: '✔';
+  color: green;
+}
+.config.off::before {
+  content: '✘';
+}
+.background-config {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.background-config .bg-sample {
+  width: 4rem;
+  height: 4rem;
+  background-size: 4rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  flex: 1 0 30%;
+}
+.background-config .bg-sample.selected {
+  border: 1px solid #fff;
+}
+
+
+@keyframes glow {
+  from {
+    color: #fff;
+    text-shadow: 0 0 10px #00fff2, 0 0 20px #00fff2, 0 0 30px #00fff2, 0 0 40px #00fff2, 0 0 50px #00fff2,
+      0 0 60px #00fff2, 0 0 70px #00fff2, 0 0 90px #00fff2;
+  }
+  to {
+    color: gray;
+    text-shadow: 0 0 20px #00fff2, 0 0 30px #00fff2, 0 0 40px #00fff2, 0 0 50px #00fff2, 0 0 60px #00fff2,
+      0 0 70px #00fff2, 0 0 80px #00fff2, 0 1 90px #00fff2;
+  }
+}

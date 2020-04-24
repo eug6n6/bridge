@@ -1,0 +1,23 @@
+.pile {
+  position: relative;
+  flex-grow: 1;
+  height: 12rem;
+  display: flex;
+  justify-content: center;
+}
+.pile .card.covered {
+  margin-left: -6rem;
+}
+.pile .card.covered:last-child {
+  margin-right: -2rem;
+}
+
+.pile .card.under {
+  margin-left: -7.5rem;
+}
+.pile .under:last-child {
+  margin-right: -1rem;
+}
+.pile .card:last-child {
+  top: 0.1rem;
+}

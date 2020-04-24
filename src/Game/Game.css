@@ -46,7 +46,6 @@
   overflow: hidden;
   font-weight: normal;
   display: flex;
-  flex-direction: column;
   align-items: center;
   width: 7rem;
   overflow: hidden;
@@ -55,16 +54,27 @@
   animation: shadow 0.5s ease-out infinite alternate;
   z-index: 1;
 }
-.game .players .player .online {
-  opacity: 0.5;
+
+.game .players .player .online, .game .players .player .offline {
+  width: 0.5rem;
+  height: 0.5rem;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 0.5rem;
 }
+.game .players .player .online {
+  background: green;
+}
+.game .players .player .offline {
+  background: red;
+}
+
 .game .players .player.the {
   border-radius: 1rem 1rem 0 0;
   margin-bottom: 0;
   font-weight: bold;
-  border-top: 1px solid #414445;
   border-radius: 0.5rem 0.5rem 0 0;
-  box-shadow: 0 0 0.5rem #414445;
+  box-shadow: 0 0 0.5rem #000;
 }
 .game .players .card {
   margin-bottom: -4rem;

@@ -1,22 +1,25 @@
+.about {
+  background: #16161f;
+  padding: 1rem;
+  text-align: center;
+}
+
+
 .start {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.start .about {
-  max-width: 30rem;
-  padding: 2rem;
-  text-align: center;
-  opacity: 0.5;
+.start .new, .start .play {
+  padding-bottom: 2rem;
+  background: #000;
+  min-width: 80%;
 }
 
-.new,
-.play {
-  flex-grow: 1;
+.new {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,19 +28,20 @@
 
 .start button,
 .start a {
-  font-size: 2rem;
+  font-size: 1.25rem;
   background: none;
   border: none;
   margin: 0 3rem;
   background: #16161f;
   color: #fff;
-  text-shadow: 0 0 1px #00ff00, 0 0 2px #00ffff, 0 0 3px #f0f0f0;
+  text-shadow: 0 0 1px #000, 0 0 2px #16161f, 0 0 3px #16161f;
   overflow: hidden;
   padding: 0.3rem 1rem;
-  box-shadow: 0 0 5px -2px #00fff2;
+  box-shadow: 0 0 5px -2px #16161f;
   cursor: pointer;
   transition: 0.1s;
   text-decoration: none;
+  outline: none !important;
 }
 .start button:hover,
 .start a:hover,
@@ -46,23 +50,42 @@
   box-shadow: 0 0 0 1px #00fff2;
 }
 
+.start .play h3 {
+  margin-bottom: 0.25rem;
+}
+
 .start .play .link {
   height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .start .play .link .url {
-  padding: 1rem;
-  margin: 1rem 0;
   background: #fff;
   border-radius: 0.25rem;
+  margin: 0.25rem;
   color: #16161f;
   font-family: monospace;
   cursor: pointer;
+  /* height: 1.5rem; */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.start .play .link .url i {
+  padding: 0.25rem;
+  height: 100%;
+  flex-grow: 1;
+}
+.start .play .link .url span {
+  padding: 0.25rem;
+  height: 100%;
+}
+
 .start .play .btns {
   height: 50%;
   display: flex;
@@ -98,15 +121,16 @@
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: center;
 }
 
 .start .create input {
   padding: 0.5rem;
-  font-size: 1.5rem;
   background: #fff;
   border-radius: 0.25rem;
   color: #16161f;
   width: 100%;
+  max-width: 15rem;
   border: none;
   outline: none;
   margin: 0.5rem;

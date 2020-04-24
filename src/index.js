@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import store from './store'
 import { connect } from './API'
-import Notification from './Notification';
+import Notification from './App/Notification';
 
 connect()
 

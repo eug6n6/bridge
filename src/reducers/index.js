@@ -1,9 +1,15 @@
 import { emit } from '../API'
 
 const defaultState = {
-    game: null,
-    player: null,
-    notifications: []
+  game: null,
+  player: null,
+  notifications: [],
+  configs: {
+    'soundOff': +localStorage.getItem('soundOff') === 1,
+    'hintsOff': +localStorage.getItem('hintsOff') === 1,
+    'backgroundPattern': +localStorage.getItem('backgroundPattern')
+      || 1 + Math.floor(Math.random() * 10)
+  }
 }
 
 const becomesCurrent = (oldPlayer, newPlayer) => {
@@ -11,8 +17,8 @@ const becomesCurrent = (oldPlayer, newPlayer) => {
   return (!oldPlayer || !oldPlayer.current) && newPlayer.current
 }
 
-const handleGame = (state, newState) => {
-  
+const getNotificationText = (state, newState) => {
+
   if (newState.game && newState.game.ended) {
     if (state.game && !state.game.ended) return 'Bridge!'
     return
@@ -30,7 +36,7 @@ const handleGame = (state, newState) => {
   const newPlayer = newState.player
   if (!newPlayer) return null
   if (!newPlayer.current) {
-    if (state.player && newPlayer.skip > state.player.skip) 
+    if (state.player && newPlayer.skip > state.player.skip)
       return 'You skip'
     return null
   }
@@ -38,13 +44,13 @@ const handleGame = (state, newState) => {
     if (!newPlayer.cards.length) emit('end')
     return 'You can finish the game!'
   }
-  if (!newPlayer.canCoverWith.length && !newPlayer.canTake 
-        && !newPlayer.canEnd && newPlayer.canSkip) {
+  if (!newPlayer.canCoverWith.length && !newPlayer.canTake
+    && !newPlayer.canEnd && newPlayer.canSkip) {
     emit('skip')
-    return 
+    return
   }
   if (becomesCurrent(state.player, newPlayer)) {
-    if (!localStorage.getItem('soundOff')) 
+    if (!state.configs.soundOff)
       new Audio('/sound.ogg').play()
     return 'Your turn!'
   }
@@ -52,30 +58,37 @@ const handleGame = (state, newState) => {
 
 const addNotification = (state, text) => {
   const notifications = [
-    { text: text, id: +new Date() }, 
+    { text: text, id: +new Date() },
     ...state.notifications
   ]
   if (notifications.length > 5) notifications.pop()
   return notifications
 }
 
-export default  (state = defaultState, action) => {
-    switch (action.type) {
-      case 'UPDATE_GAME':
-        const newState = {
-          ...state,
-          game: action.game,
-          id: action.game.id,
-          player: action.game.player
+export default (state = defaultState, action) => {
+  switch (action.type) {
+    case 'UPDATE_GAME':
+      const newState = {
+        ...state,
+        game: action.game,
+        id: action.game.id,
+        player: action.game.player
+      }
+      const text = getNotificationText(state, newState)
+      if (text) newState.notifications = addNotification(state, text)
+      becomesCurrent(state.player, newState.player)
+      return newState
+    case 'NOTIFICATION':
+      return { ...state, notifications: addNotification(state, action.text) }
+    case 'CONFIG':
+      localStorage.setItem(action.config, +action.value)
+      return {
+        ...state, configs: {
+          ...state.configs,
+          [action.config]: action.value
         }
-        const text = handleGame(state, newState)
-        if (text) newState.notifications = addNotification(state, text)
-        becomesCurrent(state.player, newState.player)
-        return  newState
-      case 'NOTIFICATION':
-        return { ...state, notifications: addNotification(state, action.text) }
-      default:
-        return state
-    }
+      }
+    default:
+      return state
   }
-  
+}

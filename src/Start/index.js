@@ -47,6 +47,10 @@ class Start extends React.Component {
     const namedAvailableUsers = game ? game.players.filter(player =>
       !player.online && player.name
     ) : []
+    console.log(namedAvailableUsers)
+    let thePlayer = null
+    if (this.state.name)
+      thePlayer = namedAvailableUsers.find(user => user.name === this.state.name)
     const canCreateUser = game ? game.players.some(player =>
       !player.online && !player.name
     ) : false
@@ -54,9 +58,6 @@ class Start extends React.Component {
     return (
       <React.Fragment>
         <div className="start">
-          <div className="about">
-            Another implementation of the old beloved card game
-        </div>
           {!game &&
             <div className="new">
               <div className="players">
@@ -73,14 +74,17 @@ class Start extends React.Component {
           {game && !player &&
             <div className="play">
               <div className="link">
-                <h2>Share link with friends:</h2>
+                <h3>Share link with friends</h3>
                 <CopyToClipboard text={url} onCopy={() => this.props.setNotification('Copied to clipboard')}>
-                  <div className="url">{url} <span role="img" aria-label="copy">📋</span></div>
+                  <div className="url">
+                    <i>{url}</i>
+                    <span role="img" aria-label="copy">📋</span>
+                  </div>
                 </CopyToClipboard>
               </div>
-              {canCreateUser &&
+              {!thePlayer && canCreateUser &&
                 <div className="create">
-                  <h2>Start playing: </h2>
+                  <h3>Start playing</h3>
                   <div className="form">
                     <input type="text" maxLength="10" placeholder="nickname"
                       onKeyPress={({ key }) => key === 'Enter' && this.state.name && this.create()}
@@ -91,17 +95,22 @@ class Start extends React.Component {
               }
               {!!namedAvailableUsers.length &&
                 <div className="btns">
-                  <h2>Play as:</h2>
+                  <h3>Play as:</h3>
                   <div className="names">
-                    {namedAvailableUsers.filter(player => !player.online && player.name).map(player =>
-                      <a key={player.id} href={url + '&player=' + player.id}>{player.name}</a>
-                    )}
+                    {thePlayer
+                      ? <a key={thePlayer.id} href={url + '&player=' + thePlayer.id}>{thePlayer.name}</a>
+                      : namedAvailableUsers.filter(player => !player.online && player.name).map(player =>
+                        <a key={player.id} href={url + '&player=' + player.id}>{player.name}</a>
+                      )}
                   </div>
                 </div>
               }
             </div>
 
           }
+        </div>
+        <div className="about">
+          Another implementation of the old beloved card game
         </div>
       </React.Fragment>
     )

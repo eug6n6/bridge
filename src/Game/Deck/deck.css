@@ -1,0 +1,16 @@
+.deck {
+  position: relative;
+  height: 12rem;
+  margin: 0 2rem;
+  z-index: 30;
+}
+.deck .cards {
+  display: flex;
+  padding: 1rem ;
+}
+.deck .card {
+  /* position: absolute; */
+}
+.deck.available .card:last-child {
+  animation: scale .5s ease-out infinite alternate;
+}
